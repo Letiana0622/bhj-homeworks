@@ -1,38 +1,25 @@
-const slides = Array.from(document.querySelectorAll('img'));
-const slideCount = slides.length;
-const arrL = document.querySelector('.slider__arrow_prev');
-const arrR = document.querySelector('.slider__arrow_next');
-let slideIndex = 0;
+const SLIDES = Array.from(document.querySelectorAll('img'));
+const SLIDE_COUNT = SLIDES.length;
+const ARR_L = document.querySelector('.slider__arrow_prev');
+const ARR_R = document.querySelector('.slider__arrow_next');
 
-arrL.addEventListener('click',showPreviousSlide);
-arrR.addEventListener('click', showNextSlide);
+ARR_L.addEventListener('click',showPreviousSlide);
+ARR_R.addEventListener('click', showNextSlide);
 
-function showPreviousSlide() {
-    slides.forEach((slide, index) => {
-        if (index === slideIndex) {
-          slide.parentElement.classList.remove('slider__item_active');
-          return;}
-      });
-    slideIndex = (slideIndex - 1 + slideCount) % slideCount;
-    updateSlider();
-};         
-
-function showNextSlide() {
-    slides.forEach((slide, index) => {
-        if (index === slideIndex) {
-          slide.parentElement.classList.remove('slider__item_active');
-          return;}
-      });
-    slideIndex = (slideIndex + 1) % slideCount;
-    updateSlider();
+function isCurrent(element) {
+    return element.parentElement.classList.contains('slider__item_active');
 };
 
-function updateSlider() {
-    slides.forEach((slide, index) => {
-      if (index === slideIndex) {
-        slide.parentElement.classList.add('slider__item_active');
-        return;}
-    });
-  }
+function showNextSlide() {
+    let indexR = SLIDES.findIndex(isCurrent);
+    SLIDES[indexR].parentElement.classList.remove('slider__item_active');
+    indexR !== SLIDE_COUNT-1? indexR+=1 : indexR = 0;
+    SLIDES[indexR].parentElement.classList.add('slider__item_active');
+};
 
-updateSlider();
+function showPreviousSlide() {
+    let indexL = SLIDES.findIndex(isCurrent);
+    SLIDES[indexL].parentElement.classList.remove('slider__item_active');
+    indexL !== 0? indexL-=1 : indexL = SLIDE_COUNT-1;
+    SLIDES[indexL].parentElement.classList.add('slider__item_active');
+};
