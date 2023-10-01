@@ -1,6 +1,6 @@
-const menuLink = Array.from(document.querySelectorAll('.menu__link'));
+const MENU_LINK = Array.from(document.querySelectorAll('.menu__link'));
 
-function MenuToggle(event) {
+function menuToggle(event) {
 
    let next = event.target.nextElementSibling;
     if (next !== null && next.classList.contains('menu_sub')) {
@@ -9,4 +9,4 @@ function MenuToggle(event) {
     }
 };
 
-menuLink.forEach(e => e.addEventListener('click', MenuToggle));
+MENU_LINK.forEach(e => e.addEventListener('click', menuToggle));
