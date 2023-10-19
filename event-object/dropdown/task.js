@@ -14,6 +14,7 @@ function menuCloseRename(event) {
   
     textNew = event.target.textContent;
     dropDown.textContent = textNew;
+    menu.classList.remove('dropdown__list_active');
    
 };
 
