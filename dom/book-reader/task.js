@@ -5,6 +5,10 @@ function bookReader(event) {
     controls.forEach((c) => {
         if (c.classList.contains('font-size_active')) {c.classList.remove('font-size_active')}}
     );
+
+    if (book.classList.contains('book_fs-small')) {book.classList.remove('book_fs-small')}
+    else if (book.classList.contains('book_fs-big')) {book.classList.remove('book_fs-big')};
+    
     if (event.target.getAttribute('data-size') === 'small') {
         event.target.classList.add('font-size_active');
         book.classList.add('book_fs-small');
