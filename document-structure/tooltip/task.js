@@ -2,22 +2,20 @@ let toolTips = Array.from(document.querySelectorAll('.has-tooltip'));
 let tips = Array.from(document.querySelectorAll('.tooltip'));
 
 function createTip(event) {
-  event.preventDefault();
-  let isNextNotExists = event.target.nextElementSibling === null;
-  const isNextContainsTooltip = event.target.nextElementSibling !== null? event.target.nextElementSibling.classList.contains('tooltip'): null;
-  
-  if (isNextNotExists || !isNextContainsTooltip) {
-    let tip = document.createElement('div');
-    tip.innerText = event.target.getAttribute('title');
-    tip.classList.add('tooltip');
-    event.target.insertAdjacentElement('afterend', tip);
-    let eventLeft = event.target.getBoundingClientRect().left;
-    let eventTop = event.target.getBoundingClientRect().top;
-    event.target.nextElementSibling.style.left = (parseInt(eventLeft)+10)+'px';
-    event.target.nextElementSibling.style.top = (parseInt(eventTop)+25)+'px';
+  if (event.target.children[0]) {
+    event.target.children[0].remove();
+  }
+  else {
+    event.preventDefault();
+    let eventLeft = parseInt(event.target.getBoundingClientRect().left)+10+'px';
+    let eventTop = parseInt(event.target.getBoundingClientRect().top)+25+'px';
+    event.target.innerHTML += `
+    <div class="tooltip" style="left: ${eventLeft}; top: ${eventTop}">
+      ${event.target.getAttribute('title')}
+    </div>
+    `;
+    document.getElementsByClassName('tooltip')[0].classList.add('tooltip_active'); 
   };
-
-    event.target.nextElementSibling.classList.toggle('tooltip_active');
 };
 
 toolTips.forEach((toolTip) => {
