@@ -3,46 +3,40 @@ let buttons = Array.from(document.querySelectorAll('.product__add'));
 let cart = document.querySelector('.cart__products');
 
 function qtyControl(event) {
-  let qty = event.target.parentElement.querySelector('.product__quantity-value');
-  let qtyValue = parseInt(qty.innerText);
-  if (event.target.classList.contains('product__quantity-control_inc')) {qtyValue += 1;}
-  else if (qtyValue === 1) {qtyValue === 1;}
-  else {qtyValue -= 1;}
-  qty.innerText = qtyValue;
+  let productQty = event.target.parentElement.querySelector('.product__quantity-value');
+  let productQtyValue = parseInt(productQty.innerText);
+  let increaseQtyIsTrue = event.target.classList.contains('product__quantity-control_inc');
+  if (increaseQtyIsTrue) {
+    productQty.innerText = productQtyValue + 1;
+  }
+  else if (!increaseQtyIsTrue && productQtyValue !== 1) {
+    productQty.innerText = productQtyValue - 1;
+  };
 };
 
 function addToCart (event) {
-  let checkProductId = event.target.closest('.product').getAttribute('data-id');
-  let array = Array.from(cart.querySelectorAll('.cart__product'));
-  const isProductInCart = array.find(function checkCart(element, index, array) {
-    if (parseInt(element.getAttribute('data-id')) === parseInt(checkProductId)) {return true;}
-    else {return false};
+  let productSelected = event.target.closest('.product');
+  let productSelectedId = parseInt(productSelected.getAttribute('data-id'));
+  let productSelectedQty = parseInt(productSelected.querySelector('.product__quantity-value').textContent);
+  let productsInCart = Array.from(cart.querySelectorAll('.cart__product'));
+  const productInCartWithSelectedId = productsInCart.find((element) => {
+    if (parseInt(element.getAttribute('data-id')) === productSelectedId) {
+      return element
+    };
   });
 
-  if (!isProductInCart) {
-    let productIdClone = event.target.closest('.product').cloneNode();
-    productIdClone.classList.remove('product');
-    productIdClone.classList.add('cart__product');
-    cart.appendChild(productIdClone);
-
-    let photo = document.createElement('img');
-    photo.classList.add('cart__product-image');
-    photo.setAttribute('src', event.target.closest('.product').querySelector('.product__image').getAttribute('src'));
-    productIdClone.appendChild(photo);
-
-    let qtyCart = document.createElement('div');
-    qtyCart.classList.add('.cart__product-count');
-    qtyCart.innerText = event.target.closest('.product').querySelector('.product__quantity-value').innerText;
-    productIdClone.appendChild(qtyCart);
+  if (!productInCartWithSelectedId) {
+    cart.innerHTML +=`
+    <div class="cart__product" data-id="${productSelectedId}">
+      <img class="cart__product-image" src="${productSelected.querySelector('.product__image').getAttribute('src')}">
+      <div class="cart__product-count">${productSelectedQty}</div>
+    </div>`;
     }
-  else if(isProductInCart) {
-    Array.from(cart.querySelectorAll('.cart__product')).forEach((cartId) => {
-      let qtyToInc = cartId.getElementsByTagName('div')[0].textContent;
-      let qtyToTake = event.target.previousElementSibling.children[1].textContent;
-      cartId.getElementsByTagName('div')[0].textContent = parseInt(qtyToInc) + parseInt(qtyToTake);
-    });
+  else {
+   let productInCartCount = productInCartWithSelectedId.children[1];
+   productInCartCount.textContent = parseInt(productInCartCount.textContent) + productSelectedQty;
   };
-};            
+};
 
 controls.forEach((control) => {control.addEventListener('click', qtyControl)})
 buttons.forEach((button) => {button.addEventListener('click', addToCart)});
