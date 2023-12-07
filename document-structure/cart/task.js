@@ -19,11 +19,7 @@ function addToCart (event) {
   let productSelectedId = parseInt(productSelected.getAttribute('data-id'));
   let productSelectedQty = parseInt(productSelected.querySelector('.product__quantity-value').textContent);
   let productsInCart = Array.from(cart.querySelectorAll('.cart__product'));
-  const productInCartWithSelectedId = productsInCart.find((element) => {
-    if (parseInt(element.getAttribute('data-id')) === productSelectedId) {
-      return element
-    };
-  });
+  const productInCartWithSelectedId = productsInCart.find(element => parseInt(element.getAttribute('data-id')) === productSelectedId);
 
   if (!productInCartWithSelectedId) {
     cart.innerHTML +=`
