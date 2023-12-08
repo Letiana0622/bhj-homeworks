@@ -11,11 +11,9 @@ function createTip(event) {
   else {
     let eventLeft = parseInt(event.target.getBoundingClientRect().left)+10+'px';
     let eventTop = parseInt(event.target.getBoundingClientRect().top)+25+'px';
-    event.target.insertAdjacentHTML('afterend',`
-    <div class="tooltip tooltip_active" style="left: ${eventLeft}; top: ${eventTop}">
-      ${event.target.getAttribute('title')}
-    </div>
-    `;
+    event.target.insertAdjacentHTML('afterend',
+      `<div class="tooltip tooltip_active" style="left: ${eventLeft}; top: ${eventTop}">${event.target.getAttribute('title')}</div>`
+    )
   }
 }
 
