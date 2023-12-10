@@ -34,7 +34,6 @@ if (typeof document !== 'undefined') {
     };
     
     xhr.open('POST', 'https://students.netoservices.ru/nestjs-backend/upload');
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     const formData = new FormData(formElement);
     xhr.send(formData);
     xhr.onload = () => console.log(xhr.response);
