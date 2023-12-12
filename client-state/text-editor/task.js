@@ -2,11 +2,11 @@ const textElement = document.getElementById('editor');
 const button = document.querySelector('.cleaner');
 
 function saveObject(key, object) {
-  localStorage.setItem(key, JSON.stringify(object));
+  localStorage.setItem(key, object);
 };
 
-function getObject(key) {
-  textElement.value = JSON.parse(localStorage.getItem(key));
+function getObject() {
+  textElement.value = localStorage.getItem('lastSessionText');
 };
 
 textElement.addEventListener('keyup', () => {
@@ -15,7 +15,7 @@ textElement.addEventListener('keyup', () => {
 
 button.addEventListener('click', () => {
     textElement.value = '';
-    localStorage.clear();
+    localStorage.removeItem('lastSessionText');
 })
 
-document.addEventListener("DOMContentLoaded", getObject('lastSessionText'));
+document.addEventListener("DOMContentLoaded", getObject);
